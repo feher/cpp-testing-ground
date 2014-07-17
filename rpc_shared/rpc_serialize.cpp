@@ -2,6 +2,18 @@
 
 #include <iostream> // for debug prints
 
+std::string rpc_serialize::Signature(const std::vector<double> &)
+{
+    std::cout << __FUNCTION__ << " : std::vector<double> " << std::endl;
+    return "std::vector<double>";
+}
+
+std::string rpc_serialize::Signature(const char *)
+{
+    std::cout << __FUNCTION__ << " : char * " << std::endl;
+    return "char *";
+}
+
 std::vector<uint8_t> rpc_serialize::Serialize(const std::vector<double> &)
 {
     // TODO: Serialize from std::vector<double> to std::vector<uint8_t>.

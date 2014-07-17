@@ -6,6 +6,10 @@
 
 namespace rpc_serialize
 {
+    // TODO: Add here the signature generator functions for your supported types.
+    std::string Signature(const std::vector<double> &);
+    std::string Signature(const char *);
+
     // TODO: Add here the serialization functions for your supported types.
     std::vector<uint8_t> Serialize(const std::vector<double> &);
     std::vector<uint8_t> Serialize(const char *);

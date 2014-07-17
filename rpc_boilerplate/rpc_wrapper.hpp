@@ -47,22 +47,16 @@ namespace rpc_wrapper
         return std::vector<uint8_t>{};
     }
 
-    void BuildSig(std::string &Signature, const std::vector<double> &)
+    template <typename T>
+    void BuildSig(std::string &Signature, const T &Arg)
     {
-        std::cout << __FUNCTION__ << " : std::vector<double> " << std::endl;
-        Signature.append("|std::vector<double>");
-    }
-
-    void BuildSig(std::string &Signature, const char *)
-    {
-        std::cout << __FUNCTION__ << " : char * " << std::endl;
-        Signature.append("|char *");
+        Signature.append("|").append(rpc_serialize::Signature(Arg));
     }
 
     template <typename THead, typename ...TRest>
     void BuildSig(std::string &Signature, const THead &Head, const TRest &...Rest)
     {
-        BuildSig(Signature, Head);
+        Signature.append("|").append(rpc_serialize::Signature(Head));
         BuildSig(Signature, Rest...);
     }
 
@@ -97,7 +91,6 @@ namespace rpc_wrapper
     private:
         std::string m_Signature;
         std::vector<uint8_t> m_SerializedArguments;
-
     };
 
     template <typename ...TArgs>
@@ -108,7 +101,7 @@ namespace rpc_wrapper
             : m_Signature{}
         {
             m_Signature = std::string{pFunctionName};
-            m_Signature.append(":").append(rpc_wrapper::BuildSignature(Args...));
+            m_Signature.append(rpc_wrapper::BuildSignature(Args...));
             m_SerializedArguments =
                 rpc_wrapper::FlattenSerializedArguments(
                 rpc_wrapper::SerializeArguments(Args...));
