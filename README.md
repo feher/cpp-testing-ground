@@ -1,4 +1,5 @@
-cpp-playground
-==============
+cpp-testing-ground
+====================
 
-Playground for simple programs written in C++
+A bunch of C++ programs for testing ideas and experimenting with C++ features.
+
