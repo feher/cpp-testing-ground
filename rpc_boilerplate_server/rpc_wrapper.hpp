@@ -15,7 +15,7 @@
         if((Signature).find(#FunctionName "|") == 0) \
         { \
             const auto &Arguments = \
-                rpc_wrapper::DeserializeArguments(FunctionName, ArgData); \
+                rpc_wrapper::helper::DeserializeArguments(FunctionName, ArgData); \
             const auto &TempResult = apply_tuple::apply_tuple(FunctionName, Arguments); \
             return rpc_serialize::Serialize(TempResult); \
         } \
@@ -28,7 +28,7 @@
         if((Signature).find(#FunctionName "|") == 0) \
         { \
             const auto &Arguments = \
-                rpc_wrapper::DeserializeArguments(FunctionName, ArgData); \
+                rpc_wrapper::helper::DeserializeArguments(FunctionName, ArgData); \
             apply_tuple::apply_tuple(FunctionName, Arguments); \
             return std::vector<uint8_t>{}; \
         } \
@@ -67,16 +67,16 @@ namespace rpc_wrapper
                 // Nothing.
             }
         };
-    }
 
-    template <typename TFunc, typename ...T>
-    auto DeserializeArguments(TFunc Function, const std::vector<uint8_t> &ArgData)
-        -> decltype(rpc_wrapper::helper::MakeTupleFromParameterList(Function))
-    {
-        using TTuple = decltype(rpc_wrapper::helper::MakeTupleFromParameterList(Function));
-        auto Result = TTuple{};
-        rpc_wrapper::helper::DeserializeArgs_c<TTuple, std::tuple_size<TTuple>::value>::Do(Result, ArgData, 0);
-        return Result;
+        template <typename TFunc, typename ...T>
+        auto DeserializeArguments(TFunc Function, const std::vector<uint8_t> &ArgData)
+            -> decltype(rpc_wrapper::helper::MakeTupleFromParameterList(Function))
+        {
+            using TTuple = decltype(rpc_wrapper::helper::MakeTupleFromParameterList(Function));
+            auto Result = TTuple{};
+            rpc_wrapper::helper::DeserializeArgs_c<TTuple, std::tuple_size<TTuple>::value>::Do(Result, ArgData, 0);
+            return Result;
+        }
     }
 
     std::vector<uint8_t> HandleRequest(const char *pSignature, const std::vector<uint8_t> &ArgData);
