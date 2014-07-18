@@ -15,7 +15,7 @@
         if((Signature).find(#FunctionName "|") == 0) \
         { \
             const auto &Arguments = \
-                rpc_wrapper::DeserializeArguments<FunctionName ## __ARG_TYPES>(ArgData); \
+                rpc_wrapper::DeserializeArguments(FunctionName, ArgData); \
             const auto &TempResult = apply_tuple::apply_tuple(FunctionName, Arguments); \
             return rpc_serialize::Serialize(TempResult); \
         } \
@@ -28,7 +28,7 @@
         if((Signature).find(#FunctionName "|") == 0) \
         { \
             const auto &Arguments = \
-                rpc_wrapper::DeserializeArguments<FunctionName ## __ARG_TYPES>(ArgData); \
+                rpc_wrapper::DeserializeArguments(FunctionName, ArgData); \
             apply_tuple::apply_tuple(FunctionName, Arguments); \
             return std::vector<uint8_t>{}; \
         } \
@@ -36,32 +36,46 @@
 
 namespace rpc_wrapper
 {
-    template <typename TTuple, std::size_t ArgIndex>
-    struct DeserializeArgs_c
+    namespace helper
     {
-        static void Do(TTuple &Result, const std::vector<uint8_t> &ArgData, std::size_t ArgDataOffset)
+        template <typename TFuncRet, typename ...TFuncArgs>
+        std::tuple<
+            typename std::remove_cv<
+            typename std::remove_reference<TFuncArgs>::type>::type...>
+            MakeTupleFromParameterList(TFuncRet(*pFunction) (TFuncArgs...))
         {
-            static const auto TupleSize = std::tuple_size<TTuple>::value;
-            auto &Arg = std::get<TupleSize - ArgIndex>(Result);
-            ArgDataOffset += rpc_serialize::Deserialize(Arg, ArgData, ArgDataOffset);
-            rpc_wrapper::DeserializeArgs_c<TTuple, ArgIndex - 1>::Do(Result, ArgData, ArgDataOffset);
+            return {};
         }
-    };
 
-    template <typename TTuple>
-    struct DeserializeArgs_c<TTuple, 0>
-    {
-        static void Do(TTuple &, const std::vector<uint8_t> &, std::size_t)
+        template <typename TTuple, std::size_t ArgIndex>
+        struct DeserializeArgs_c
         {
-            // Nothing.
-        }
-    };
+            static void Do(TTuple &Result, const std::vector<uint8_t> &ArgData, std::size_t ArgDataOffset)
+            {
+                static const auto TupleSize = std::tuple_size<TTuple>::value;
+                auto &Arg = std::get<TupleSize - ArgIndex>(Result);
+                ArgDataOffset += rpc_serialize::Deserialize(Arg, ArgData, ArgDataOffset);
+                rpc_wrapper::helper::DeserializeArgs_c<TTuple, ArgIndex - 1>::Do(Result, ArgData, ArgDataOffset);
+            }
+        };
 
-    template <typename ...T>
-    std::tuple<T...> DeserializeArguments(const std::vector<uint8_t> &ArgData)
+        template <typename TTuple>
+        struct DeserializeArgs_c < TTuple, 0 >
+        {
+            static void Do(TTuple &, const std::vector<uint8_t> &, std::size_t)
+            {
+                // Nothing.
+            }
+        };
+    }
+
+    template <typename TFunc, typename ...T>
+    auto DeserializeArguments(TFunc Function, const std::vector<uint8_t> &ArgData)
+        -> decltype(rpc_wrapper::helper::MakeTupleFromParameterList(Function))
     {
-        auto Result = std::tuple<T...>{};
-        DeserializeArgs_c<decltype(Result), sizeof...(T)>::Do(Result, ArgData, 0);
+        using TTuple = decltype(rpc_wrapper::helper::MakeTupleFromParameterList(Function));
+        auto Result = TTuple{};
+        rpc_wrapper::helper::DeserializeArgs_c<TTuple, std::tuple_size<TTuple>::value>::Do(Result, ArgData, 0);
         return Result;
     }
 
