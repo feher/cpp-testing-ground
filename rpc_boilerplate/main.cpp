@@ -12,10 +12,10 @@ int main()
     RemoteFunction1(DoubleVector, pCharPointer);
 
     std::cout << "\nTest 2" << std::endl;
-    const auto &StringVector = RemoteFunction2(DoubleVector, pCharPointer);
+    const auto &StringVector = RemoteFunction2(std::string{"test"}, 1.1);
 
     std::cout << "\nTest 3" << std::endl;
-    const auto &String = RemoteFunction3(DoubleVector, pCharPointer);
+    const auto &String = RemoteFunction3(std::unordered_map<std::string, std::vector<float>>{}, static_cast<short*>(nullptr));
 
     return 0;
 }

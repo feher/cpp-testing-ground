@@ -20,14 +20,14 @@ void RemoteFunction1(const std::vector<double> &, const char *)
     std::cout << __FUNCTION__ << std::endl;
 }
 
-std::vector<std::string> RemoteFunction2(const std::vector<double> &, const char *)
+std::vector<std::string> RemoteFunction2(const std::string &, double)
 {
     // TODO: Provide implementation.
     std::cout << __FUNCTION__ << std::endl;
     return std::vector<std::string>{};
 }
 
-std::string RemoteFunction3(const std::vector<double> &, const char *)
+std::string RemoteFunction3(const std::unordered_map<std::string, std::vector<float>> &, const short *)
 {
     // TODO: Provide implementation.
     std::cout << __FUNCTION__ << std::endl;
