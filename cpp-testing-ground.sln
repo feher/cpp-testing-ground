@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dummy", "dummy\dummy.vcxproj", "{6D80161C-C5BA-452E-AD39-4188DE64625D}"
 EndProject
@@ -42,6 +42,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "serial_tree", "serial_tree\serial_tree.vcxproj", "{E1C61B81-7658-4DB7-952B-E8392E5DBDC8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "printf_type_check", "printf_type_check\printf_type_check.vcxproj", "{D0564E4F-0609-4573-8DA2-43A78ABF7040}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "output_reference_parameters", "output_reference_parameters\output_reference_parameters.vcxproj", "{114B9EE5-B3FB-48E6-9FBC-466932245ECE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "amp_test", "amp_test\amp_test.vcxproj", "{97F2C751-B4F6-4E62-80DD-7A8224285E32}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stl_benchmark", "stl_benchmark\stl_benchmark.vcxproj", "{EF91F9C2-739B-4977-8384-D2EAAD007F86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -261,6 +267,36 @@ Global
 		{D0564E4F-0609-4573-8DA2-43A78ABF7040}.Release|Win32.ActiveCfg = Release|Win32
 		{D0564E4F-0609-4573-8DA2-43A78ABF7040}.Release|Win32.Build.0 = Release|Win32
 		{D0564E4F-0609-4573-8DA2-43A78ABF7040}.Release|x64.ActiveCfg = Release|x64
+		{114B9EE5-B3FB-48E6-9FBC-466932245ECE}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{114B9EE5-B3FB-48E6-9FBC-466932245ECE}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{114B9EE5-B3FB-48E6-9FBC-466932245ECE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{114B9EE5-B3FB-48E6-9FBC-466932245ECE}.Debug|Win32.Build.0 = Debug|Win32
+		{114B9EE5-B3FB-48E6-9FBC-466932245ECE}.Debug|x64.ActiveCfg = Debug|Win32
+		{114B9EE5-B3FB-48E6-9FBC-466932245ECE}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{114B9EE5-B3FB-48E6-9FBC-466932245ECE}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{114B9EE5-B3FB-48E6-9FBC-466932245ECE}.Release|Win32.ActiveCfg = Release|Win32
+		{114B9EE5-B3FB-48E6-9FBC-466932245ECE}.Release|Win32.Build.0 = Release|Win32
+		{114B9EE5-B3FB-48E6-9FBC-466932245ECE}.Release|x64.ActiveCfg = Release|Win32
+		{97F2C751-B4F6-4E62-80DD-7A8224285E32}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{97F2C751-B4F6-4E62-80DD-7A8224285E32}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{97F2C751-B4F6-4E62-80DD-7A8224285E32}.Debug|Win32.ActiveCfg = Debug|Win32
+		{97F2C751-B4F6-4E62-80DD-7A8224285E32}.Debug|Win32.Build.0 = Debug|Win32
+		{97F2C751-B4F6-4E62-80DD-7A8224285E32}.Debug|x64.ActiveCfg = Debug|Win32
+		{97F2C751-B4F6-4E62-80DD-7A8224285E32}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{97F2C751-B4F6-4E62-80DD-7A8224285E32}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{97F2C751-B4F6-4E62-80DD-7A8224285E32}.Release|Win32.ActiveCfg = Release|Win32
+		{97F2C751-B4F6-4E62-80DD-7A8224285E32}.Release|Win32.Build.0 = Release|Win32
+		{97F2C751-B4F6-4E62-80DD-7A8224285E32}.Release|x64.ActiveCfg = Release|Win32
+		{EF91F9C2-739B-4977-8384-D2EAAD007F86}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{EF91F9C2-739B-4977-8384-D2EAAD007F86}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{EF91F9C2-739B-4977-8384-D2EAAD007F86}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EF91F9C2-739B-4977-8384-D2EAAD007F86}.Debug|Win32.Build.0 = Debug|Win32
+		{EF91F9C2-739B-4977-8384-D2EAAD007F86}.Debug|x64.ActiveCfg = Debug|Win32
+		{EF91F9C2-739B-4977-8384-D2EAAD007F86}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{EF91F9C2-739B-4977-8384-D2EAAD007F86}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{EF91F9C2-739B-4977-8384-D2EAAD007F86}.Release|Win32.ActiveCfg = Release|Win32
+		{EF91F9C2-739B-4977-8384-D2EAAD007F86}.Release|Win32.Build.0 = Release|Win32
+		{EF91F9C2-739B-4977-8384-D2EAAD007F86}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
