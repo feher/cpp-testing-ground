@@ -116,7 +116,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="hotspot.cpp" />
+    <ClCompile Include="hotspot_Simple.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="hotspot_Simple_fwd.hpp" />
+    <ClInclude Include="hotspot_Simple.hpp" />
+    <ClInclude Include="Test.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
