@@ -2,5 +2,5 @@
 
 namespace insert_and_find
 {
-    void RunTest();
+    void runTest();
 }

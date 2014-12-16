@@ -122,6 +122,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="source1.cpp" />
+    <ClCompile Include="source2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header1.hpp" />

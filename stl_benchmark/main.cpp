@@ -2,5 +2,5 @@
 
 int main()
 {
-    insert_and_find::RunTest();
+    insert_and_find::runTest();
 }

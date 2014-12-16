@@ -10,6 +10,8 @@ These are <b>experimental</b> code for testing compiler features and random idea
 
 Windows: There is a Visual Studio solution file (.sln). Open it and build (you might want to build only individual projects and not the entire solution).
 
+For some projects, you will need boost. Download it and extract it to "boost" directory in the same directory where you have this README file.
+So, in the end you should have e.g. "./boost/boost/asio.hpp".
 
 Coding style
 -------------
