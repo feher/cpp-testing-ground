@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dummy", "dummy\dummy.vcxproj", "{6D80161C-C5BA-452E-AD39-4188DE64625D}"
 EndProject
@@ -52,6 +52,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boost_test", "boost_test\boost_test.vcxproj", "{90B021FE-5EEE-40B8-A185-2BD07025344D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "typesafe_print", "typesafe_print\typesafe_print.vcxproj", "{16678ED5-7107-4944-8B21-FBB2A0011274}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "indexed_vector", "indexed_vector\indexed_vector.vcxproj", "{1235F4DA-3652-4CF3-B686-E62B32E74527}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -322,6 +324,17 @@ Global
 		{16678ED5-7107-4944-8B21-FBB2A0011274}.Release|Win32.ActiveCfg = Release|Win32
 		{16678ED5-7107-4944-8B21-FBB2A0011274}.Release|Win32.Build.0 = Release|Win32
 		{16678ED5-7107-4944-8B21-FBB2A0011274}.Release|x64.ActiveCfg = Release|Win32
+		{1235F4DA-3652-4CF3-B686-E62B32E74527}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{1235F4DA-3652-4CF3-B686-E62B32E74527}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{1235F4DA-3652-4CF3-B686-E62B32E74527}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1235F4DA-3652-4CF3-B686-E62B32E74527}.Debug|Win32.Build.0 = Debug|Win32
+		{1235F4DA-3652-4CF3-B686-E62B32E74527}.Debug|x64.ActiveCfg = Debug|Win32
+		{1235F4DA-3652-4CF3-B686-E62B32E74527}.Debug|x64.Build.0 = Debug|Win32
+		{1235F4DA-3652-4CF3-B686-E62B32E74527}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{1235F4DA-3652-4CF3-B686-E62B32E74527}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{1235F4DA-3652-4CF3-B686-E62B32E74527}.Release|Win32.ActiveCfg = Release|Win32
+		{1235F4DA-3652-4CF3-B686-E62B32E74527}.Release|Win32.Build.0 = Release|Win32
+		{1235F4DA-3652-4CF3-B686-E62B32E74527}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
