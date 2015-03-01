@@ -24,12 +24,18 @@
     <ClCompile Include="highres_clock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="multiindex_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="boost_format_test.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="highres_clock.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="multiindex_test.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -71,7 +71,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>E:\Data__Private\Source_code\cpp-testing-ground\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -122,10 +122,12 @@
     <ClCompile Include="boost_format_test.cpp" />
     <ClCompile Include="highres_clock.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="multiindex_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="boost_format_test.hpp" />
     <ClInclude Include="highres_clock.hpp" />
+    <ClInclude Include="multiindex_test.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
