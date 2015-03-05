@@ -6,33 +6,47 @@
 
 using IndexedVectorPosition = std::vector<int>::size_type;
 
-template<typename ...T>
-class IndexId
+template<typename ...TIndices>
+class TypeToIdMapper final
 {
 public:
-    static IndexedVectorPosition getIndexId(const T1 *) { return 0; }
-    static IndexedVectorPosition getIndexId(const T2 *) { return 1; }
-};
-
-template<typename ...TIndices>
-struct TemplateArgCount
-{
-    static int count(TIndices... &Args)
+    template<typename T, typename TIndex>
+    static int mapIfSameType(int indexId)
     {
-        return sizeof...(Args);
+        return std::is_same<T, TIndex>::value ? indexId : -1;
+    }
+
+    template<typename T>
+    static int mapToMatchingType(int)
+    {
+        return -1;
+    }
+
+    template<typename T, typename TFirst, typename ...TRest>
+    static int mapToMatchingType(int indexId)
+    {
+        if(mapIfSameType<T, TFirst>(indexId) != -1)
+            return indexId;
+        return mapToMatchingType<T, TRest...>(indexId + 1);
+    }
+
+    template<typename T>
+    static int getTypeId()
+    {
+        return mapToMatchingType<T, TIndices...>(0);
     }
 };
 
+
 template<typename T,
          typename ...TIndices>
-class IndexedVector
+class IndexedVector final
 {
 public:
     explicit IndexedVector()
-        : m_vector{},
-          m_indices{}
+        : m_items{},
+          m_indices(sizeof...(TIndices))
     {
-        m_indices.reserve(TemplateArgCount<TIndices...>::count());
     }
 	~IndexedVector() = default;
 
@@ -44,76 +58,84 @@ public:
     const T& itemAt(const IndexedVectorPosition position) const;
 
 private:
-	std::vector<T> m_vector;
+	std::vector<T> m_items;
     std::vector<std::vector<IndexedVectorPosition>> m_indices;
-    IndexId<TIndices...> m_indexIds;
+    TypeToIdMapper<TIndices...> m_IndexTypeToIndexId;
 };
 
 template<typename T, typename TIndex>
 void
-helper_insertSorted(
+helper_addToIndex(
+    const int indexId,
     const T &item,
     const IndexedVectorPosition itemRealPosition,
-    indexIds,
-    std::vector<std::vector<IndexedVectorPosition>> indices,
-    std::vector<T> &vektor)
+    std::vector<std::vector<IndexedVectorPosition>> &indices,
+    std::vector<T> &items)
 {
-    const auto indexId = indexIds.getIndexId((const TIndex*)nullptr);
     auto &index = indices[indexId];
     auto indexer = TIndex{};
-    auto i = IndexedVectorPosition{0};
-    for (; i < index.size(); ++i)
-    {
-        auto &itemI = vektor[index[i]];
-        if (indexer.IsLess(itemI, item))
-        {
-            continue;
-        }
-        break;
-    }
-    auto it = std::begin(index) + i;
-    index.insert(it, itemRealPosition);
+    auto indexedPositionIt =
+        std::upper_bound(
+            std::begin(index), std::end(index),
+            itemRealPosition,
+            [&](const IndexedVectorPosition positionA, const IndexedVectorPosition positionB){
+                const auto &itemA = items[positionA];
+                const auto &itemB = items[positionB];
+                return indexer.IsLess(itemA, itemB);
+            });
+    index.insert(indexedPositionIt, itemRealPosition);
+}
+
+template<typename T>
+void
+helper_addToIndices(
+    const int ,
+    const T &,
+    const IndexedVectorPosition ,
+    std::vector<std::vector<IndexedVectorPosition>> &,
+    std::vector<T> &)
+{
 }
 
 template<typename T, typename TFirst, typename ...TRest>
 void
-helper_insertSorted(
+helper_addToIndices(
+    const int indexId,
     const T &item,
     const IndexedVectorPosition itemRealPosition,
-    indexIds,
-    indices,
-    vektor)
+    std::vector<std::vector<IndexedVectorPosition>> &indices,
+    std::vector<T> &vektor)
 {
-    helper_insertSorted<T, TFirst>(item, itemRealPosition, indexIds, indices, vektor);
-    helper_insertSorted<T, TRest...>(item, itemRealPosition, indexIds, indices, vektor);
+    helper_addToIndex<T, TFirst>(indexId, item, itemRealPosition, indices, vektor);
+    helper_addToIndices<T, TRest...>(indexId + 1, item, itemRealPosition, indices, vektor);
 }
 
 template<typename T, typename ...TIndices>
 void
 IndexedVector<T, TIndices...>::addItem(const T &item)
 {
-    m_vector.push_back(item);
-    const auto itemRealPosition = m_vector.size() - 1;
-    helper_insertSorted<T, TIndices...>(
-            item, itemRealPosition,
-            m_indexIds, m_indices, m_vector);
+    m_items.push_back(item);
+    const auto itemRealPosition = m_items.size() - 1;
+    helper_addToIndices<T, TIndices...>(
+            0, item, itemRealPosition,
+            m_indices, m_items);
 }
 
-template<typename T, typename TIndex1, typename TIndex2>
-typename IndexedVector<T, TIndex1, TIndex2>::Position
-IndexedVector<T, TIndex1, TIndex2>::size() const
+template<typename T, typename ...TIndices>
+IndexedVectorPosition
+IndexedVector<T, TIndices...>::size() const
 {
-    return m_vector.size();
+    return m_items.size();
 }
 
-template<typename T, typename TIndex1, typename TIndex2>
+template<typename T, typename ...TIndices>
 template<typename TIndex>
 const T&
-IndexedVector<T, TIndex1, TIndex2>::itemAt(const Position position) const
+IndexedVector<T, TIndices...>::itemAt(const IndexedVectorPosition position) const
 {
-    const auto indexId = m_indexIds.getIndexId((const TIndex*)nullptr);
+    const auto indexId = m_IndexTypeToIndexId.getTypeId<TIndex>();
     const auto realPosition = m_indices[indexId][position];
-    return m_vector[realPosition];
+    return m_items[realPosition];
 }
 
 struct MyType
@@ -123,7 +145,7 @@ struct MyType
     std::string field3;
 };
 
-struct IndexByField1
+struct SortByField1
 {
     bool IsLess(const MyType &a, const MyType &b)
     {
@@ -131,7 +153,7 @@ struct IndexByField1
     }
 };
 
-struct IndexByField1AndField3
+struct SortByField1AndField3
 {
     bool IsLess(const MyType &a, const MyType &b)
     {
@@ -149,11 +171,13 @@ struct IndexByField1AndField3
 
 int main()
 {
+    std::cout << TypeToIdMapper<int, double>{}.getTypeId<double>() << std::endl;
+
     auto iv =
         IndexedVector<
             MyType,
-            IndexByField1,
-            IndexByField1AndField3>{};
+            SortByField1,
+            SortByField1AndField3>{};
     iv.addItem(MyType{ 6.0, 3, "hello" });
     iv.addItem(MyType{ 2.0, 45, "apple" });
     iv.addItem(MyType{ 5.0, 2, "lion" });
@@ -162,9 +186,9 @@ int main()
 
     for (auto i = IndexedVectorPosition{ 0 }; i < iv.size(); ++i)
     {
-        std::cout << iv.itemAt<IndexByField1>(i).field1 << std::endl;
-        std::cout << iv.itemAt<IndexByField1AndField3>(i).field1 << " "
-                  << iv.itemAt<IndexByField1AndField3>(i).field3 << std::endl;
+        std::cout << iv.itemAt<SortByField1>(i).field1 << std::endl;
+        std::cout << iv.itemAt<SortByField1AndField3>(i).field1 << " "
+                  << iv.itemAt<SortByField1AndField3>(i).field3 << std::endl;
     }
 
     return 0;
